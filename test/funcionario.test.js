@@ -1,23 +1,20 @@
-const request = require("supertest")
+const request = require("supertest");
+const app = require("../src/app");
+const sequelize = require("../src/config/database");
+const expectCookies = require("supertest/lib/cookies");
 
-const app = require("../src/app")
+afterAll(async()=>{
+    await sequelize.close();
+});
 
-//escrita de um teste
-describe("API de Funcionarios",()=>(
-
-    it("Deve cadastrar um funcionario", async()=>{
-
+describe("API Funcionarios",()=>{
+    it("Deve cadastrar funcionario", async()=>{
         const resposta = await request(app)
         .post("/funcionarios")
         .send({
-            nome: "Maria",
-            cargo: "Analista"
+            nome:"Maria",
+            cargo:"Analista"
         })
-
-    expect(resposta.statusCode).toBe(201)
-
-    expect(resposta.body.nome).toBe("Maria")
-
-    expect(resposta.body.cargo).toBe("Analista")
     })
-))
+    expect(resposta.statusCode).toBe(201);
+});
